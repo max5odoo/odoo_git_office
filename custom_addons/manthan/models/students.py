@@ -59,7 +59,6 @@ class Students(models.Model):
         for rec in self:
             print(f"\n\n{rec.professor_choose.name}\n\n\n")
             name = f"{rec.name} ({rec.rollno}) "
-            print("hello")
             student_name_gets.append((rec.id, name))
         return student_name_gets
 
@@ -86,6 +85,7 @@ class Students(models.Model):
     #         obj = self.search([('name', '=', record.name), ('id', '!=', record.id)])
     #         if obj:
     #             raise ValidationError("name must be unique..")
+
 
     @api.onchange("name")
     def _compute_name(self):
@@ -128,8 +128,6 @@ class Students(models.Model):
             record = super(Students, self).default_get(['address'])
             print(f'\n\n\n\n{record}\n\n\n\n')
             lead.address = record['address']
-
-    print("hello brother")
 
     # @api.model
     # def create(self, values):
