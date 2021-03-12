@@ -35,6 +35,9 @@
                                 <group>
                                     <field name="task_start_time"/>
                                     <field name="task_end_time"/>
+                                    <field name="professor_id"/>
+                                    <field name="professor_name_many2one"/>
+
                                 </group>
                             </group>
                         </group>

@@ -98,7 +98,7 @@
                                 <field name="student_email" widget="email"/>
                                 <field name="student_compute"/>
                                 <field name="age"/>
-                                <field name="student_tasks_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="student_tasks_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                             </group>
                             <group>
                                 <field name="pin_code"/>

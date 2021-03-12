@@ -96,7 +96,7 @@ class Students(models.Model):
             else:
                 lead.student_compute = (f"Welcome {lead.name}")
 
-    @api.onchange("dob")
+    @api.depends("dob")
     def age_student(self):
         self.age = 0
         for rec in self:
