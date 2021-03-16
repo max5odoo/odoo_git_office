@@ -20,18 +20,18 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'mail','sale'],
+    'depends': ['base', 'website', 'mail', 'sale', ],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'data/student_data.xml',
+        'security/security_prac.xml',
+        # 'data/student_data.xml',
         'views/students.xml',
         'views/professor.xml',
-        'views/button_prac.xml',
-        'views/sale_order_updates.xml',
+        # 'views/button_prac.xml',
+        # 'views/sale_order_updates.xml',
         'views/task.xml',
-
 
     ],
     # only loaded in demonstration mode

@@ -39,10 +39,6 @@ class Students(models.Model):
     student_tasks_ids = tax_ids = fields.Many2many('tasks.tasks', 'student_student_task',
                                                    'student_id', 'tasks_id', string='student tasks')
 
-    # task_name = fields.One2many('tasks.tasks', 'student_id', string='Task names')
-    # tasks_name = fields.Many2one('task.task', string='Task names')
-    # tasks_done = fields.Boolean(related='tasks_name.task_done', string='is done')
-    # task_fro=fields.One2many('task.task','task_id',string='task fro')
 
     @api.constrains("phoneno")
     def check_mobile_no(self):
@@ -61,6 +57,7 @@ class Students(models.Model):
             name = f"{rec.name} ({rec.rollno}) "
             student_name_gets.append((rec.id, name))
         return student_name_gets
+
 
     # @api.constrains("name")
     # def search_name_student(self):
@@ -85,7 +82,6 @@ class Students(models.Model):
     #         obj = self.search([('name', '=', record.name), ('id', '!=', record.id)])
     #         if obj:
     #             raise ValidationError("name must be unique..")
-
 
     @api.onchange("name")
     def _compute_name(self):

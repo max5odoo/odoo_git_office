@@ -20,6 +20,7 @@
                     <field name="student_compute"/>
                     <field name="age"/>
 
+
                     <!--                    <field name="tasks_name"/>-->
                     <!--                    <field name="tasks_done"/>-->
                 </tree>
@@ -163,8 +164,8 @@
         </record>
 
         <menuitem id="schools_main_menu" name="school"/>
-        <menuitem action="students_menu_action" sequence="1" id="schools_student_menu" name="Student"
-                  parent="manthan.schools_main_menu"/>
+        <menuitem action="students_menu_action" sequence="1" id="schools_student_menu_" name="Student"
+                  parent="manthan.schools_main_menu" />
         <!--        <menuitem action="student_menu_action" id="school_student_menu" name="Student" parent="manthan.student_menu"/>-->
 
     </data>
