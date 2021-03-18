@@ -38,6 +38,17 @@ class Students(models.Model):
     students_professor_id = fields.Char('professor id', compute='professor_unique_id')
     student_tasks_ids = tax_ids = fields.Many2many('tasks.tasks', 'student_student_task',
                                                    'student_id', 'tasks_id', string='student tasks')
+    state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancle', 'Canclled')], 'Student Status')
+
+    @api.onchange('tasks_id')
+    def onchange_amo(self):
+        for rec in self:
+            print(f"\n\n\n\n\nname--------------\n\n\n\n\n")
+            if rec.tasks_id :
+                print(f"\n\n\n\n\nline ids--------------hii python\n\n\n\n\n")
+                rec.write({'state': 'draft'})
+            else:
+                rec.update({'state': ''})
 
 
     @api.constrains("phoneno")
@@ -58,6 +69,20 @@ class Students(models.Model):
             student_name_gets.append((rec.id, name))
         return student_name_gets
 
+    # here we have created a button_done function which we declared in xml file
+    def button_done(self):
+        for rec in self:
+            rec.write({'state':'done'})
+
+    # here we have created a button_reset function which we declared in xml file
+    def button_reset(self):
+        for rec in self:
+            rec.state="draft"
+
+    # here we have created a button_cancel function which we declared in xml file
+    def button_cancel (self):
+        for rec in self:
+            rec.write({'state':'cancle'})
 
     # @api.constrains("name")
     # def search_name_student(self):

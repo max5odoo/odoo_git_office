@@ -1,7 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_manthan_professor_new,manthan.professor.new,model_professor_professor,base.group_user,1,1,1,1
+access_manthan_students_new,manthan.students.new,model_student_student,base.group_user,1,1,1,1
 access_manthan_tasks_new,manthan.tasks.new,model_tasks_tasks,base.group_user,1,1,1,1
-access_manthan_chawda,manthan.olo,model_student_student,manthan.overtime_users,1,1,0,1
+
+
 
 
 

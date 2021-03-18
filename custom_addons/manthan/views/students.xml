@@ -62,6 +62,14 @@
             <field name="model">student.student</field>
             <field name="arch" type="xml">
                 <form string="student">
+                    <!--  from here to </header> we have created buttons and view states in statusbar -->
+                    <header>
+                        <button name="button_done" string="Done" class="oe_highlight" type="object"/>
+                        <button name="button_reset" string="Reset to Draft" class="oe_highlight"
+                                type="object"/>
+                        <button name="button_cancel" string="Cancel" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done,cancle"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box">
 
@@ -99,7 +107,8 @@
                                 <field name="student_email" widget="email"/>
                                 <field name="student_compute"/>
                                 <field name="age"/>
-                                <field name="student_tasks_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                                <field name="student_tasks_ids" widget="many2many_tags"
+                                       options="{'color_field': 'color'}"/>
                             </group>
                             <group>
                                 <field name="pin_code"/>
@@ -117,16 +126,15 @@
 
                             <page name="task_info" string="task Courses">
                                 <!--                                  attrs="{'invisible': [('gender', '=', 'male')]}">-->
-                                <field name="tasks_id" >
+                                <field name="tasks_id">
 
                                     <tree editable="bottom">
                                         <!-- <field name="sub_id"/>-->
-<!--                                        <control>-->
-<!--                                            <create string="Add a product"/>-->
-<!--                                        </control>-->
+                                        <!--                                        <control>-->
+                                        <!--                                            <create string="Add a product"/>-->
+                                        <!--                                        </control>-->
                                         <field name="task_technology"/>
                                         <field name='task_name'/>
-
 
 
                                     </tree>
@@ -165,7 +173,7 @@
 
         <menuitem id="schools_main_menu" name="school"/>
         <menuitem action="students_menu_action" sequence="1" id="schools_student_menu_" name="Student"
-                  parent="manthan.schools_main_menu" />
+                  parent="manthan.schools_main_menu"/>
         <!--        <menuitem action="student_menu_action" id="school_student_menu" name="Student" parent="manthan.student_menu"/>-->
 
     </data>
