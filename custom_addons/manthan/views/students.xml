@@ -68,14 +68,20 @@
                         <button name="button_done" string="Done" class="oe_highlight" type="object"/>
                         <button name="button_reset" string="Reset to Draft" class="oe_highlight"
                                 type="object"/>
-                        <button name="button_cancel" string="Cancel"  type="object"/>
+                        <button name="button_cancel" string="Cancel" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done,cancle"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box">
 
-                            <button class="oe_stat_button" name="button_employee" string="Professor Page"
-                                    type="object" icon="fa-edit"/>
+                            <button class="oe_stat_button" name="button_employee" string="Professor"
+                                    type="object" icon="fa-file-text-o">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="total_proffesor"/>
+                                    </span>
+                                </div>
+                            </button>
 
                         </div>
                         <div class="oe_button_box" name="button_box"/>
@@ -90,7 +96,7 @@
                                 <field name="address"/>
                                 <field name="rollno"/>
                                 <field name="student_signature" widget="signature"/>
-                                <field name="active" widget="boolean_button"/>
+                                <field name="active"/>
                                 <field name="professor_id_read_only"/>
 
 
@@ -103,7 +109,7 @@
                                 <field name="phoneno" widget="phone"/>
                                 <field name="dob"/>
                                 <field name="task_tech"/>
-<!--                                <field name="professor_choose" position="attributes"><attribute name="context">{'journal_idss': True}</attribute></field>-->
+                                <!--                                <field name="professor_choose" position="attributes"><attribute name="context">{'journal_idss': True}</attribute></field>-->
                                 <field name="professor_choose"/>
                                 <field name="student_email" widget="email"/>
                                 <field name="student_compute"/>
@@ -130,10 +136,6 @@
                                 <field name="tasks_id">
 
                                     <tree editable="bottom">
-                                        <!-- <field name="sub_id"/>-->
-                                        <!--                                        <control>-->
-                                        <!--                                            <create string="Add a product"/>-->
-                                        <!--                                        </control>-->
                                         <field name="task_technology"/>
                                         <field name='task_name'/>
 

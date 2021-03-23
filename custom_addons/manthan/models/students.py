@@ -1,3 +1,7 @@
+import re
+
+import self as self
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 # from datetime import datetime
@@ -13,10 +17,13 @@ class Students(models.Model):
     _name = 'student.student'
     _description = 'student description'
     _inherit = ['website.published.mixin', 'mail.thread', 'mail.activity.mixin']
-    # _sql_constraints = [('unique_name', 'unique(name)', 'it already exits..')]
+    _sql_constraints = [('unique_names', 'unique(name)', 'it already exits..')]
+
+
+
 
     name = fields.Char('name', required=False)
-    address = fields.Char('address', default='idhar nai aneka')
+    address = fields.Char('address')
     rollno = fields.Integer('Roll No.')
     phoneno = fields.Char('mobile')
     gender = fields.Selection(
@@ -39,16 +46,22 @@ class Students(models.Model):
     student_tasks_ids = tax_ids = fields.Many2many('tasks.tasks', 'student_student_task',
                                                    'student_id', 'tasks_id', string='student tasks')
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancle', 'Canclled')], 'Student Status')
+    total_proffesor=fields.Integer(string='total professor',compute='total_professors')
 
-    @api.onchange('tasks_id')
-    def onchange_amo(self):
-        for rec in self:
-            print(f"\n\n\n\n\nname--------------\n\n\n\n\n")
-            if rec.tasks_id :
-                print(f"\n\n\n\n\nline ids--------------hii python\n\n\n\n\n")
-                rec.write({'state': 'draft'})
-            else:
-                rec.update({'state': ''})
+    # @api.onchange('tasks_id')
+    # def onchange_amo(self):
+    #     for rec in self:
+    #         print(f"\n\n\n\n\nname--------------\n\n\n\n\n")
+    #         if rec.tasks_id:
+    #             print(f"\n\n\n\n\nline ids--------------hii python\n\n\n\n\n")
+    #             rec.write({'state': 'draft'})
+    #         else:
+    #             rec.update({'state': ''})
+
+    def total_professors(self):
+        count=self.env['professor.professor'].search_count([('name','=',self.name)])
+        print(f"\n\n\nsearch_count {count}\n\n\n")
+        self.total_proffesor=count
 
 
     @api.constrains("phoneno")
@@ -61,28 +74,27 @@ class Students(models.Model):
                     raise ValidationError("mobile no. size must be 10.")
 
     def name_get(self):
-
         student_name_gets = []
         for rec in self:
-            print(f"\n\n{rec.professor_choose.name}\n\n\n")
-            name = f"{rec.name} ({rec.rollno}) "
-            student_name_gets.append((rec.id, name))
+                name = f"{rec.professor_choose.name}/{rec.professor_choose.pro_id} "
+                student_name_gets.append((rec.id, name))
+                print(f"\n\n\n\n\n\n{name}\n\n\n\n\n")
         return student_name_gets
 
     # here we have created a button_done function which we declared in xml file
     def button_done(self):
         for rec in self:
-            rec.write({'state':'done'})
+            rec.write({'state': 'done'})
 
     # here we have created a button_reset function which we declared in xml file
     def button_reset(self):
         for rec in self:
-            rec.state="draft"
+            rec.state = "draft"
 
     # here we have created a button_cancel function which we declared in xml file
-    def button_cancel (self):
+    def button_cancel(self):
         for rec in self:
-            rec.write({'state':'cancle'})
+            rec.write({'state': 'cancle'})
 
     # @api.constrains("name")
     # def search_name_student(self):
@@ -100,13 +112,9 @@ class Students(models.Model):
     #     else:
     #         print("\n\n\n\n else ma bhi jay che\n\n\n")s
 
-    # @api.constrains("name")
-    # def unique_name(self):
-    #     obj=0
-    #     for record in self:
-    #         obj = self.search([('name', '=', record.name), ('id', '!=', record.id)])
-    #         if obj:
-    #             raise ValidationError("name must be unique..")
+
+
+
 
     @api.onchange("name")
     def _compute_name(self):
@@ -121,7 +129,6 @@ class Students(models.Model):
     def age_student(self):
         self.age = 0
         for rec in self:
-
             if rec.dob:
                 your_date = rec.dob
                 today_date = datetime.date.today()
@@ -142,13 +149,13 @@ class Students(models.Model):
         for lead in self:
             if lead.professor_choose:
                 lead.students_professor_id = lead.professor_choose.pro_id
-
-    @api.onchange('address')
-    def address_unique(self):
-        for lead in self:
-            record = super(Students, self).default_get(['address'])
-            print(f'\n\n\n\n{record}\n\n\n\n')
-            lead.address = record['address']
+    #
+    # @api.onchange('address')
+    # def address_unique(self):
+    #     for lead in self:
+    #         record = super(Students, self).default_get(['address'])
+    #         print(f'\n\n\n\n{record}\n\n\n\n')
+    #         lead.address = record['address']
 
     # @api.model
     # def create(self, values):
@@ -225,6 +232,7 @@ class Students(models.Model):
     #     print(f"\n\n\n\nthis is write method...{clg_up_student}\n\n\n\n\n")
     #     return clg_up_student
 
+
     def search_func(self):
         # search
         # search_res = self.env['student.student'].search(
@@ -237,16 +245,37 @@ class Students(models.Model):
         print(f"\n\n\nsearch_read {search_read}\n\n\n")
 
     def button_employee(self):
-        return {
-            'name': ('professor'),
 
-            # 'view_type': 'tree',
+        for rec in self:
+            name = rec.env['professor.professor'].search([('name','=',self.name)])
+            print(f"\n\n--->>>this is in the button name{name}<<<---\n\n\n")
 
-            'view_mode': 'tree,form',
+            if name:
+                return {
+                    'name': ('professor'),
 
-            'res_model': 'professor.professor',
+                    # 'view_type': 'tree',
 
-            'domain': [('pro_id', '=', 5)],
+                    'view_mode': 'tree,form',
 
-            'type': 'ir.actions.act_window',  # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
-        }
+                    'res_model': 'professor.professor',
+
+                    'domain': [('name', '=', self.name)],
+
+                    'type': 'ir.actions.act_window',  # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
+                }
+
+            else:
+
+                return {
+                    'name': ('professor'),
+
+                    # 'view_type': 'tree',
+
+                    'view_mode': 'form',
+
+                    'res_model': 'professor.professor',
+
+                    'type': 'ir.actions.act_window',
+                    # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
+                }
