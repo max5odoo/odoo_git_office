@@ -39,6 +39,7 @@
                     <field name="address"/>
                     <field name="dob"/>
                     <field name="student_email"/>
+                    <field name="phoneno"/>
                     <separator/>
 
                     <filter domain="[('gender', '=', 'male')]" name="male" string="Male"/>
@@ -67,7 +68,7 @@
                         <button name="button_done" string="Done" class="oe_highlight" type="object"/>
                         <button name="button_reset" string="Reset to Draft" class="oe_highlight"
                                 type="object"/>
-                        <button name="button_cancel" string="Cancel" type="object"/>
+                        <button name="button_cancel" string="Cancel"  type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done,cancle"/>
                     </header>
                     <sheet>
@@ -88,8 +89,6 @@
                                 <field name="name"/>
                                 <field name="address"/>
                                 <field name="rollno"/>
-                                <field name="professor_choose"
-                                       options="{'no_create_edit': True,'no_create': True,'no_open': True}}"/>
                                 <field name="student_signature" widget="signature"/>
                                 <field name="active" widget="boolean_button"/>
                                 <field name="professor_id_read_only"/>
@@ -104,6 +103,8 @@
                                 <field name="phoneno" widget="phone"/>
                                 <field name="dob"/>
                                 <field name="task_tech"/>
+<!--                                <field name="professor_choose" position="attributes"><attribute name="context">{'journal_idss': True}</attribute></field>-->
+                                <field name="professor_choose"/>
                                 <field name="student_email" widget="email"/>
                                 <field name="student_compute"/>
                                 <field name="age"/>
@@ -165,7 +166,6 @@
             <field name="name">Student</field>
             <field name="res_model">student.student</field>
             <field name="view_mode">tree,form</field>
-
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create The First Student</p>
             </field>
