@@ -82,6 +82,14 @@
                                     </span>
                                 </div>
                             </button>
+                            <button class="oe_stat_button" name="%(task_menu_action_new)d" string="Tasks"
+                                    type="action" icon="fa-file-text-o">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="total_tasks"/>
+                                    </span>
+                                </div>
+                            </button>
 
                         </div>
                         <div class="oe_button_box" name="button_box"/>
@@ -133,11 +141,10 @@
 
                             <page name="task_info" string="task Courses">
                                 <!--                                  attrs="{'invisible': [('gender', '=', 'male')]}">-->
-                                <field name="tasks_id">
+                                <field name="new_task_id">
 
                                     <tree editable="bottom">
-                                        <field name="task_technology"/>
-                                        <field name='task_name'/>
+                                       <field name="task_another_id"/>
 
 
                                     </tree>
@@ -173,9 +180,21 @@
             </field>
         </record>
 
-        <menuitem id="schools_main_menu" name="school"/>
+        <!-- aa go_to_student vadu apane action("olu delete vadu ave aema") ma avse   -->
+        <record id="go_to_student" model="ir.actions.act_window">
+            <field name="name">Go to professor</field>
+            <field name="res_model">professor.professor</field>
+            <field name="view_id" ref="professor_form_view"/>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_student_student"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+
         <menuitem action="students_menu_action" sequence="1" id="schools_student_menu_" name="Student"
                   parent="manthan.schools_main_menu"/>
+
         <!--        <menuitem action="student_menu_action" id="school_student_menu" name="Student" parent="manthan.student_menu"/>-->
 
     </data>

@@ -13,6 +13,8 @@ class Professor(models.Model):
     male = fields.Boolean()
     female = fields.Boolean()
     company_name = fields.Char("Company Name", placeholder="enter the comapny name")
+    student_ids = fields.Many2many('student.student', 'professor_students_name', 'professor_id', 'student_id',
+                                   string='students')
 
     @api.constrains("phoneno")
     def check_mobile_no(self):
@@ -36,13 +38,10 @@ class Professor(models.Model):
         professor_name_gets = []
         print(f"\n\n\n\n\n{self.env.context.get('journal_idss')}\n\n\n\n")
         for rec in self:
-            if self.env.context.get('journal_idss'):
-                name = f"{rec.name}"
-                print(f"\n\n--->>>{name}<<<---\n\n\n")
-                professor_name_gets.append((rec.id, name))
-            else:
+            name = rec.name
+            if not self.env.context.get('journal_idss'):
                 name = f"{rec.name}/{rec.pro_id}"
                 print(f"\n\n--->>>{name}<<<---\n\n\n")
-                professor_name_gets.append((rec.id, name))
-        return professor_name_gets
+            professor_name_gets.append((rec.id, name))
 
+        return professor_name_gets

@@ -19,9 +19,6 @@ class Students(models.Model):
     _inherit = ['website.published.mixin', 'mail.thread', 'mail.activity.mixin']
     _sql_constraints = [('unique_names', 'unique(name)', 'it already exits..')]
 
-
-
-
     name = fields.Char('name', required=False)
     address = fields.Char('address')
     rollno = fields.Integer('Roll No.')
@@ -46,7 +43,9 @@ class Students(models.Model):
     student_tasks_ids = tax_ids = fields.Many2many('tasks.tasks', 'student_student_task',
                                                    'student_id', 'tasks_id', string='student tasks')
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancle', 'Canclled')], 'Student Status')
-    total_proffesor=fields.Integer(string='total professor',compute='total_professors')
+    total_proffesor = fields.Integer(string='total professor', compute='total_professors')
+    total_tasks = fields.Integer(string='total tasks', compute='total_taks')
+    new_task_id = fields.One2many('another.another', 'student_another', string='new one')
 
     # @api.onchange('tasks_id')
     # def onchange_amo(self):
@@ -59,10 +58,14 @@ class Students(models.Model):
     #             rec.update({'state': ''})
 
     def total_professors(self):
-        count=self.env['professor.professor'].search_count([('name','=',self.name)])
+        count = self.env['professor.professor'].search_count([('name', '=', self.name)])
         print(f"\n\n\nsearch_count {count}\n\n\n")
-        self.total_proffesor=count
+        self.total_proffesor = count
 
+    def total_taks(self):
+        count = self.env['another.another'].search_count([('student_another', '=', self.id)])
+        print(f"\n\n\nsearch_count {count}\n\n\n")
+        self.total_tasks = count
 
     @api.constrains("phoneno")
     def check_mobile_no(self):
@@ -73,13 +76,13 @@ class Students(models.Model):
                 if len(str(self.phoneno).strip()) != 10:
                     raise ValidationError("mobile no. size must be 10.")
 
-    def name_get(self):
-        student_name_gets = []
-        for rec in self:
-                name = f"{rec.professor_choose.name}/{rec.professor_choose.pro_id} "
-                student_name_gets.append((rec.id, name))
-                print(f"\n\n\n\n\n\n{name}\n\n\n\n\n")
-        return student_name_gets
+    # def name_get(self):
+    #     student_name_gets = []
+    #     for rec in self:
+    #         name = f"{rec.professor_choose.name}/{rec.professor_choose.pro_id} "
+    #         student_name_gets.append((rec.id, name))
+    #         print(f"\n\n\n\n\n\n{name}\n\n\n\n\n")
+    #     return student_name_gets
 
     # here we have created a button_done function which we declared in xml file
     def button_done(self):
@@ -111,10 +114,6 @@ class Students(models.Model):
     #         })
     #     else:
     #         print("\n\n\n\n else ma bhi jay che\n\n\n")s
-
-
-
-
 
     @api.onchange("name")
     def _compute_name(self):
@@ -149,6 +148,7 @@ class Students(models.Model):
         for lead in self:
             if lead.professor_choose:
                 lead.students_professor_id = lead.professor_choose.pro_id
+
     #
     # @api.onchange('address')
     # def address_unique(self):
@@ -232,7 +232,6 @@ class Students(models.Model):
     #     print(f"\n\n\n\nthis is write method...{clg_up_student}\n\n\n\n\n")
     #     return clg_up_student
 
-
     def search_func(self):
         # search
         # search_res = self.env['student.student'].search(
@@ -244,10 +243,11 @@ class Students(models.Model):
         search_read = self.search_read([('name', '=', 'manthan')], fields=['student_email'])
         print(f"\n\n\nsearch_read {search_read}\n\n\n")
 
+    # this is a button from which we can check student name is equal to professor name ,,accordingly, it shows the view
     def button_employee(self):
 
         for rec in self:
-            name = rec.env['professor.professor'].search([('name','=',self.name)])
+            name = rec.env['professor.professor'].search([('name', '=', self.name)])
             print(f"\n\n--->>>this is in the button name{name}<<<---\n\n\n")
 
             if name:
@@ -262,7 +262,8 @@ class Students(models.Model):
 
                     'domain': [('name', '=', self.name)],
 
-                    'type': 'ir.actions.act_window',  # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
+                    'type': 'ir.actions.act_window',
+                    # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
                 }
 
             else:
@@ -279,3 +280,10 @@ class Students(models.Model):
                     'type': 'ir.actions.act_window',
                     # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
                 }
+
+
+class Another(models.Model):        
+    _name = 'another.another'
+
+    student_another = fields.Many2one('student.student')
+    task_another_id = fields.Many2one('tasks.tasks', string='tasks')
