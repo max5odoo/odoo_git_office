@@ -19,17 +19,17 @@
     'version': '14.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'mail', 'sale', ],
+    'depends': ['base', 'website', 'mail', 'sale','hr_attendance' ],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'security/security_prac.xml',
         # 'data/student_data.xml',
-        'views/new_task.xml',
         'views/professor.xml',
         'views/task.xml',
         'views/students.xml',
+        'views/wizard_demo.xml'
         # 'views/button_prac.xml',
         # 'views/sale_order_updates.xml',
 

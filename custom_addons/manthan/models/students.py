@@ -44,8 +44,10 @@ class Students(models.Model):
                                                    'student_id', 'tasks_id', string='student tasks')
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancle', 'Canclled')], 'Student Status')
     total_proffesor = fields.Integer(string='total professor', compute='total_professors')
-    total_tasks = fields.Integer(string='total tasks', compute='total_taks')
-    new_task_id = fields.One2many('another.another', 'student_another', string='new one')
+    # total_tasks = fields.Integer(string='total tasks', compute='total_taks')
+    # new_task_id = fields.One2many('another.another', 'student_another', string='new one')
+    sale_new=fields.Many2one('sale.order.line')
+    sale_re=fields.Text(related='sale_new.name')
 
     # @api.onchange('tasks_id')
     # def onchange_amo(self):
@@ -57,16 +59,20 @@ class Students(models.Model):
     #         else:
     #             rec.update({'state': ''})
 
+    # this is to count the total number of professor in student's form view button
     def total_professors(self):
         count = self.env['professor.professor'].search_count([('name', '=', self.name)])
         print(f"\n\n\nsearch_count {count}\n\n\n")
         self.total_proffesor = count
 
+    # this is to count the total number of tasks in student's form view button
     def total_taks(self):
-        count = self.env['another.another'].search_count([('student_another', '=', self.id)])
-        print(f"\n\n\nsearch_count {count}\n\n\n")
-        self.total_tasks = count
+        pass
+    #     count = self.env['another.another'].search_count([('student_another', '=', self.id)])
+    #     print(f"\n\n\nsearch_count {count}\n\n\n")
+    #     self.total_tasks = count
 
+    # this is for validating the mobile number which was taken as integer fields
     @api.constrains("phoneno")
     def check_mobile_no(self):
         if str(self.phoneno) != 'False':
@@ -75,6 +81,7 @@ class Students(models.Model):
             else:
                 if len(str(self.phoneno).strip()) != 10:
                     raise ValidationError("mobile no. size must be 10.")
+
 
     # def name_get(self):
     #     student_name_gets = []
@@ -281,9 +288,18 @@ class Students(models.Model):
                     # this is predefined in odoo for redirection purpose aa fixed hoyy hamesha
                 }
 
+    # this is for wizard button placed inside the student form for opening the wizard
+    def open_wizard(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode':'form',
+            'res_model': 'task.creation.report.wizard',
+            'target':'new'
+        }
 
-class Another(models.Model):        
-    _name = 'another.another'
-
-    student_another = fields.Many2one('student.student')
-    task_another_id = fields.Many2one('tasks.tasks', string='tasks')
+#
+# class Another(models.Model):
+#     _name = 'another.another'
+#
+#     student_another = fields.Many2one('student.student')
+#     task_another_id = fields.Many2one('tasks.tasks', string='tasks')

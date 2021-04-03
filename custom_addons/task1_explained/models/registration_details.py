@@ -60,9 +60,9 @@ class Registration(models.Model):
     #     for rec in self:
     #         rec.course_ids = rec.batch_id.course_ids.course_name
 
-    @api.constrains('student')
-    def one_registration_for_student(self):
-        for rec in self:
-            result = self.env['registrations.details'].search([('student', '=', rec.student.id)])
-            if result:
-                raise ValidationError(f'Registration for {rec.student.name.name} already exist.')
+    # @api.constrains('student')
+    # def one_registration_for_student(self):
+    #     for rec in self:
+    #         result = self.env['registrations.details'].search([('student', '=', rec.student.id)])
+    #         if result:
+    #             raise ValidationError(f'Registration for {rec.student.name.name} already exist.')

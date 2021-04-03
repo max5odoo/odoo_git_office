@@ -21,7 +21,7 @@ class task(models.Model):
     def _get_default_color(self):
         return randint(1, 11)
 
-    student_id = fields.Many2one('student.student', string='Student',ondelete='restrict')
+    student_id = fields.Many2one('student.student', string='Student')
     task_name = fields.Char(string='Task Name')
     task_technology = fields.Char(string='Task Technology Used')
     professor_id = fields.Many2one('professor.professor', string='many2one vadi')

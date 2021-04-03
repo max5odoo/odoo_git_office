@@ -221,6 +221,7 @@ class Student(models.Model):
 		result = self.env['course.details'].search([('course_name', '=', self.course_id.course_name)])
 		if result:
 			return {
+
 				'type': 'ir.actions.act_window',
 				'res_model': 'course.details',
 				'view_mode': 'tree,form',

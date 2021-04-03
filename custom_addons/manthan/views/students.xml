@@ -69,6 +69,7 @@
                         <button name="button_reset" string="Reset to Draft" class="oe_highlight"
                                 type="object"/>
                         <button name="button_cancel" string="Cancel" type="object"/>
+                        <button name="open_wizard" string="open wizard" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done,cancle"/>
                     </header>
                     <sheet>
@@ -79,14 +80,6 @@
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
                                         <field name="total_proffesor"/>
-                                    </span>
-                                </div>
-                            </button>
-                            <button class="oe_stat_button" name="%(task_menu_action_new)d" string="Tasks"
-                                    type="action" icon="fa-file-text-o">
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field name="total_tasks"/>
                                     </span>
                                 </div>
                             </button>
@@ -141,11 +134,11 @@
 
                             <page name="task_info" string="task Courses">
                                 <!--                                  attrs="{'invisible': [('gender', '=', 'male')]}">-->
-                                <field name="new_task_id">
+                                <field name="tasks_id">
 
                                     <tree editable="bottom">
-                                       <field name="task_another_id"/>
-
+                                        <field name="task_name"/>
+                                        <field name="task_technology"/>
 
                                     </tree>
                                 </field>
@@ -185,6 +178,17 @@
             <field name="name">Go to professor</field>
             <field name="res_model">professor.professor</field>
             <field name="view_id" ref="professor_form_view"/>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_student_student"/>
+            <field name="binding_view_types">form</field>
+            <field name="target">new</field>
+        </record>
+
+          <!-- aa go_to_studentss vadu apane action("ama wizard khulse") ma avse   -->
+        <record id="go_to_studentss" model="ir.actions.act_window">
+            <field name="name">Go to tasks new</field>
+            <field name="res_model">task.creation.report.wizard</field>
+            <field name="view_id" ref="task_creation_report_wizard"/>
             <field name="view_mode">form</field>
             <field name="binding_model_id" ref="model_student_student"/>
             <field name="binding_view_types">form</field>
