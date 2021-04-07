@@ -69,7 +69,9 @@
                         <button name="button_reset" string="Reset to Draft" class="oe_highlight"
                                 type="object"/>
                         <button name="button_cancel" string="Cancel" type="object"/>
-                        <button name="open_wizard" string="open wizard" type="object"/>
+<!--                        <button name="open_wizard" string="open wizard" type="object"/>-->
+                        <button name="%(action_tasks_creation_report_wizard)d" string="open wizard" type="action"/>
+                        <button name="open_chatter_wizard" string="open mail wizard" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done,cancle"/>
                     </header>
                     <sheet>
@@ -94,6 +96,7 @@
                             <group>
 
                                 <field name="name"/>
+                                <field name="new_name"/>
                                 <field name="address"/>
                                 <field name="rollno"/>
                                 <field name="student_signature" widget="signature"/>
@@ -124,6 +127,16 @@
                                 <field name="students_professor_id"/>
                             </group>
                         </group>
+                        <div id="fruits" class="fruits">
+                            <span>Apple</span>
+                            <span>Mango</span>
+                            <span>Graps</span>
+                        </div>
+                        <div class="vegetable">
+                            <span>Potato</span>
+                            <span>Onion</span>
+                            <span>Tomato</span>
+                        </div>
                         <separator string="GENDER"/>
                         <group>
                             <group>
@@ -184,17 +197,27 @@
             <field name="target">new</field>
         </record>
 
-          <!-- aa go_to_studentss vadu apane action("ama wizard khulse") ma avse   -->
-        <record id="go_to_studentss" model="ir.actions.act_window">
-            <field name="name">Go to tasks new</field>
-            <field name="res_model">task.creation.report.wizard</field>
-            <field name="view_id" ref="task_creation_report_wizard"/>
-            <field name="view_mode">form</field>
-            <field name="binding_model_id" ref="model_student_student"/>
-            <field name="binding_view_types">form</field>
-            <field name="target">new</field>
-        </record>
+<!--         aa go_to_studentss vadu apane action("ama wizard khulse") ma avse   -->
+<!--        <record id="go_to_studentss" model="ir.actions.act_window">-->
+<!--            <field name="name">Go to tasks new</field>-->
+<!--            <field name="res_model">task.creation.report.wizard</field>-->
+<!--            <field name="view_id" ref="task_creation_report_wizard"/>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="binding_model_id" ref="model_student_student"/>-->
+<!--            <field name="binding_view_types">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
 
+        <!-- aa sequence number ('ir.squence) generate karva mate xml   -->
+        <record id="sequence_self_service" model="ir.sequence">
+            <field name="name">New name</field>
+            <field name="code">cory</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">SS</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
 
         <menuitem action="students_menu_action" sequence="1" id="schools_student_menu_" name="Student"
                   parent="manthan.schools_main_menu"/>

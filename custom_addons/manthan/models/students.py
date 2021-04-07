@@ -46,8 +46,22 @@ class Students(models.Model):
     total_proffesor = fields.Integer(string='total professor', compute='total_professors')
     # total_tasks = fields.Integer(string='total tasks', compute='total_taks')
     # new_task_id = fields.One2many('another.another', 'student_another', string='new one')
-    sale_new=fields.Many2one('sale.order.line')
-    sale_re=fields.Text(related='sale_new.name')
+    sale_new = fields.Many2one('sale.order.line')
+    sale_re = fields.Text(related='sale_new.name')
+    new_name = fields.Char(string="New Name", readonly=True, required=True, copy=False, default='New')
+
+    # student_user = fields.Many2one('res.users', 'All users')
+
+    # here on creating the record the field new_name will have the sequence number ("ss000001") ..in short ir.sequence generate karva mate
+    @api.model
+    def create(self, vals):
+        print(f"\n\n\nvals mate  {vals.get('new_name', 'new')}\n\n\n")
+        if vals.get('new_name', 'New') == 'New':
+            vals['new_name'] = self.env['ir.sequence'].next_by_code(
+                'cory') or 'New'
+            # vals['name'] = self.env.user.name ----->>>>this is to print the current login user
+        result = super(Students, self).create(vals)
+        return result
 
     # @api.onchange('tasks_id')
     # def onchange_amo(self):
@@ -68,6 +82,7 @@ class Students(models.Model):
     # this is to count the total number of tasks in student's form view button
     def total_taks(self):
         pass
+
     #     count = self.env['another.another'].search_count([('student_another', '=', self.id)])
     #     print(f"\n\n\nsearch_count {count}\n\n\n")
     #     self.total_tasks = count
@@ -81,7 +96,6 @@ class Students(models.Model):
             else:
                 if len(str(self.phoneno).strip()) != 10:
                     raise ValidationError("mobile no. size must be 10.")
-
 
     # def name_get(self):
     #     student_name_gets = []
@@ -289,12 +303,20 @@ class Students(models.Model):
                 }
 
     # this is for wizard button placed inside the student form for opening the wizard
-    def open_wizard(self):
+    # def open_wizard(self):
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'view_mode': 'form',
+    #         'res_model': 'task.creation.report.wizard',
+    #         'target': 'new'
+    #     }
+    #
+    def open_chatter_wizard(self):
         return {
             'type': 'ir.actions.act_window',
-            'view_mode':'form',
-            'res_model': 'task.creation.report.wizard',
-            'target':'new'
+            'view_mode': 'form',
+            'res_model': 'task.mail.report.wizard',
+            'target': 'new'
         }
 
 #

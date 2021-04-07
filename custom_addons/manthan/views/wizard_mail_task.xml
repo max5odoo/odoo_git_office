@@ -1,17 +1,21 @@
 <odoo>
-    <record model="ir.ui.view" id="task_creation_report_wizard">
-        <field name="name">Task Creation Report</field>
-        <field name="model">task.creation.report.wizard</field>
+    <record model="ir.ui.view" id="task_mail_wizard">
+        <field name="name">Task Mail Report</field>
+        <field name="model">task.mail.report.wizard</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Task Creation Report">
-                <field name="task_new_id" widget="many2many_tags"/>
-                <!--                <group>-->
-                <!--                    <group>-->
-                <!--                        <field name="task_name"/>-->
-                <!--                        <field name="task_technology"/>-->
-                <!--                    </group>-->
-                <!--                </group>-->
+                <group>
+                    <group>
+                        <field name="activity_type_id"/>
+                        <field name="summary"/>
+                    </group>
+                    <group>
+                        <field name="date_deadline"/>
+                        <field name="user_id"/>
+
+                    </group>
+                </group>
                 <footer>
                     <button name="create_new_button" string="Create" type="object" class="oe_highlight"/>
                     <button string="Cancel" special="cancel"/>

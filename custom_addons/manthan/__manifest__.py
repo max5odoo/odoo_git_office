@@ -19,7 +19,7 @@
     'version': '14.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'mail', 'sale','hr_attendance' ],
+    'depends': ['base', 'website', 'mail', 'sale', 'hr_attendance'],
 
     # always loaded
     'data': [
@@ -29,10 +29,11 @@
         'views/professor.xml',
         'views/task.xml',
         'views/students.xml',
-        'views/wizard_demo.xml'
+        'views/wizard_demo.xml',
+        'views/wizard_mail_task.xml'
+        # 'views/task_fruits.xml',
         # 'views/button_prac.xml',
         # 'views/sale_order_updates.xml',
-
 
     ],
     # only loaded in demonstration mode
