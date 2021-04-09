@@ -30,7 +30,8 @@
         'views/task.xml',
         'views/students.xml',
         'views/wizard_demo.xml',
-        'views/wizard_mail_task.xml'
+        'views/wizard_mail_task.xml',
+        'views/task_set_values_wizard.xml'
         # 'views/task_fruits.xml',
         # 'views/button_prac.xml',
         # 'views/sale_order_updates.xml',

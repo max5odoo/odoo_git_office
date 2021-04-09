@@ -19,13 +19,21 @@ class Students(models.Model):
     _inherit = ['website.published.mixin', 'mail.thread', 'mail.activity.mixin']
     _sql_constraints = [('unique_names', 'unique(name)', 'it already exits..')]
 
+
+
+    # use of ---->>>get_param<<<--- in default of company_name
+    def get_the_set_value(self):
+        res = self.env['ir.config_parameter'].sudo().get_param('manthan.company_name')
+        return res
+
     name = fields.Char('name', required=False)
+    # student_user = fields.Many2one('res.users', 'All users')
     address = fields.Char('address')
     rollno = fields.Integer('Roll No.')
     phoneno = fields.Char('mobile')
     gender = fields.Selection(
         [('male', 'Male'), ('female', 'Female'), ], 'Gender', default='male')
-    company_name = fields.Char("Company Name", placeholder="enter the comapny name")
+    company_name = fields.Char("Company Name", placeholder="enter the comapny name", default=get_the_set_value)
     student_email = fields.Char()
     professor_choose = fields.Many2one('professor.professor', string='Professor')
     professor_id_read_only = fields.Char(related='professor_choose.address', string='Changable address ', readonly=True)
@@ -50,12 +58,19 @@ class Students(models.Model):
     sale_re = fields.Text(related='sale_new.name')
     new_name = fields.Char(string="New Name", readonly=True, required=True, copy=False, default='New')
 
-    # student_user = fields.Many2one('res.users', 'All users')
-
     # here on creating the record the field new_name will have the sequence number ("ss000001") ..in short ir.sequence generate karva mate
+
     @api.model
     def create(self, vals):
         print(f"\n\n\nvals mate  {vals.get('new_name', 'new')}\n\n\n")
+        print(
+            f"\n\n\nset value mate--> {self.env['ir.config_parameter'].sudo().set_param('manthan.abc', 'manthan the boss')}\n\n\n")
+        # use of ---->>>>set_param<<<<--- in ir.config_parameter
+        self.env['ir.config_parameter'].sudo().set_param("manthan.company_name", "manthan the boss")
+        # use of ---->>>>get_param<<<<--- in ir.config_parameter
+        self.env['ir.config_parameter'].sudo().get_param('manthan.company_name')
+        print(
+            f"\n\n\nget value mate--------> {self.env['ir.config_parameter'].sudo().get_param('manthan.company_name')}\n\n")
         if vals.get('new_name', 'New') == 'New':
             vals['new_name'] = self.env['ir.sequence'].next_by_code(
                 'cory') or 'New'
@@ -325,3 +340,4 @@ class Students(models.Model):
 #
 #     student_another = fields.Many2one('student.student')
 #     task_another_id = fields.Many2one('tasks.tasks', string='tasks')
+

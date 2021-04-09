@@ -68,3 +68,23 @@ class TaskMailWizard(models.TransientModel):
         })
         print(f"\n\nstudent - - {student_data}\n\n\n")
         return student_data
+
+
+class TasksetvalueWizard(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    template_id_new = fields.Many2one('mail.template', 'Email')
+
+    @api.model
+    def get_values(self):
+        res = super(TasksetvalueWizard, self).get_values()
+        res['template_id_new'] = int(self.env['ir.config_parameter'].sudo().get_param('template_id_new'))
+        print(f"\n\nResss _____>{res['template_id_new']}\n\n\n")
+        return res
+
+    @api.model
+    def set_values(self):
+        rest_set = super(TasksetvalueWizard, self).set_values()
+        res_get = self.env['ir.config_parameter'].sudo().set_param(
+            'template_id_new', self.template_id_new.id)
+        print(f"\n\nResss sett_____>{res_get}\n\n\n")
